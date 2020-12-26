@@ -23,8 +23,13 @@ default: &default
 
 development:
   <<: *default
-  database: remobs_api_development
-
+  database: bkp_remobs
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  host: bkp-remobs.postgres.uhserver.com
+  username: bkp_remobs
+  password: <%= ENV['REMOBS_QC_DB_PASSWORD'] %>
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is

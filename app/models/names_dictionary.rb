@@ -1,0 +1,2 @@
+class NamesDictionary < ApplicationRecord
+end
