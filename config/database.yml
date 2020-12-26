@@ -89,7 +89,7 @@ production:
   adapter: postgresql
   pool: 5
   timeout: 5000
-  host: bkp-remobs.postgres.uhserver.com
+  url: bkp-remobs.postgres.uhserver.com
   username: bkp_remobs
   password: <%= ENV['REMOBS_QC_DB_PASSWORD'] %>
 
