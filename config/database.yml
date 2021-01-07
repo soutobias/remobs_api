@@ -84,10 +84,10 @@ production:
   password: <%= ENV['REMOBS_API_DATABASE_PASSWORD'] %>
 
 external: # database you also want to connect to
-  database: bkp_remobs
+  database: remobs_qc
   adapter: postgresql
   pool: 5
   timeout: 5000
-  host: bkp-remobs.postgres.uhserver.com
-  username: bkp_remobs
+  host: remobs-qc.postgres.uhserver.com
+  username: remobs_qc
   password: <%= ENV['REMOBS_QC_DB_PASSWORD'] %>
