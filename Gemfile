@@ -32,7 +32,7 @@ gem 'autoprefixer-rails'
 gem 'font-awesome-sass'
 gem 'simple_form'
 gem 'pundit'
-
+gem "passenger"
 gem 'simple_token_authentication'
 
 group :development, :test do
