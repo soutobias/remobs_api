@@ -4,7 +4,7 @@ lock "~> 3.16.0"
 set :application, "remobs_api"
 set :repo_url, "git@github.com:soutobias/remobs_api.git"
 
-set :deploy_to, "/home/deploy/#{fetch :application}"
+set :deploy_to, "/home/remobsapi/#{fetch :application}"
 
 
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'

@@ -80,6 +80,11 @@ GEM
     capistrano-rails (1.6.1)
       capistrano (~> 3.1)
       capistrano-bundler (>= 1.1, < 3)
+    capistrano-rails-console (2.3.0)
+      capistrano (>= 3.5.0, < 4.0.0)
+      sshkit-interactive (~> 0.3.0)
+    capistrano-rails-db (0.0.2)
+      capistrano-rails (~> 1.1)
     capistrano-rbenv (2.2.0)
       capistrano (~> 3.1)
       sshkit (~> 1.3)
@@ -232,6 +237,8 @@ GEM
     sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    sshkit-interactive (0.3.0)
+      sshkit (~> 1.12)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -272,6 +279,8 @@ DEPENDENCIES
   capistrano (~> 3.11)
   capistrano-passenger (~> 0.2.0)
   capistrano-rails (~> 1.4)
+  capistrano-rails-console
+  capistrano-rails-db
   capistrano-rbenv (~> 2.1, >= 2.1.4)
   capybara (>= 2.15)
   devise
@@ -302,4 +311,4 @@ RUBY VERSION
    ruby 2.6.6p146
 
 BUNDLED WITH
-   2.1.4
+   2.2.14
