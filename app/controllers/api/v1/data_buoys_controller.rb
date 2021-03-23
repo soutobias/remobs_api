@@ -15,7 +15,10 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
             @query += "date_time <= '#{params[:end_date]}' AND "
           end
           @query += "buoy_id = #{params[:buoy]}"
-          @data_buoys = policy_scope(DataBuoy).where(@query)
+          if @query.downcase.include? 'drop'
+            @data_buoys = []
+          else
+            @data_buoys = policy_scope(DataBuoy).where(@query)
         end
       end
     end
