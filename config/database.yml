@@ -79,9 +79,9 @@ test:
 #
 production:
   <<: *default
-  database: remobs_api_production
-  username: remobs_api
-  password: <%= ENV['REMOBS_API_DATABASE_PASSWORD'] %>
+  database: remobs_api
+  username: remobsapi
+  password: marinha1
 
 external: # database you also want to connect to
   database: remobs_qc
@@ -90,4 +90,4 @@ external: # database you also want to connect to
   timeout: 5000
   host: remobs-qc.postgres.uhserver.com
   username: remobs_qc
-  password: <%= ENV['REMOBS_QC_DB_PASSWORD'] %>
+  password: Marinha1@

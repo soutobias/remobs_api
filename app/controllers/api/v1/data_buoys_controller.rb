@@ -19,6 +19,7 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
             @data_buoys = []
           else
             @data_buoys = policy_scope(DataBuoy).where(@query)
+	  end
         end
       end
     end

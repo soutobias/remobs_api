@@ -1,0 +1,17 @@
+current directory: /var/www/remobs_api/code/vendor/bundle/ruby/2.6.0/gems/passenger-6.0.7/src/helper-scripts/download_binaries
+/home/remobsapi/.rbenv/versions/2.6.6/bin/ruby -I /home/remobsapi/.rbenv/versions/2.6.6/lib/ruby/2.6.0 -r ./siteconf20210324-2077-10gtaqo.rb extconf.rb
+Attempting to download https://github.com/phusion/passenger/releases/download/release-6.0.7/rubyext-ruby-2.6.6-x86_64-linux.tar.gz into /var/www/remobs_api/code/vendor/bundle/ruby/2.6.0/gems/passenger-6.0.7/download_cache
+Attempting to download https://github.com/phusion/passenger/releases/download/release-6.0.7/nginx-1.18.0-x86_64-linux.tar.gz into /var/www/remobs_api/code/vendor/bundle/ruby/2.6.0/gems/passenger-6.0.7/download_cache
+Attempting to download https://github.com/phusion/passenger/releases/download/release-6.0.7/agent-x86_64-linux.tar.gz into /var/www/remobs_api/code/vendor/bundle/ruby/2.6.0/gems/passenger-6.0.7/download_cache
+
+current directory: /var/www/remobs_api/code/vendor/bundle/ruby/2.6.0/gems/passenger-6.0.7/src/helper-scripts/download_binaries
+make "DESTDIR=" clean
+true
+
+current directory: /var/www/remobs_api/code/vendor/bundle/ruby/2.6.0/gems/passenger-6.0.7/src/helper-scripts/download_binaries
+make "DESTDIR="
+true
+
+current directory: /var/www/remobs_api/code/vendor/bundle/ruby/2.6.0/gems/passenger-6.0.7/src/helper-scripts/download_binaries
+make "DESTDIR=" install
+true
