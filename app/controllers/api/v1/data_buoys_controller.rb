@@ -6,7 +6,23 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
       user = User.where("authentication_token = ?", params[:token])
       buoy = Buoy.where("id = ?", params[:buoy])
       unless user.empty?
-        unless buoy.empty?
+        if user[0].email != 'bmo@gmail.com'
+          unless buoy.empty?
+            @query = ""
+            if params[:start_date].present?
+              @query += "date_time >= '#{params[:start_date]}' AND "
+            end
+            if params[:end_date].present?
+              @query += "date_time <= '#{params[:end_date]}' AND "
+            end
+            @query += "buoy_id = #{params[:buoy]}"
+            if @query.downcase.include? 'drop'
+              @data_buoys = []
+            else
+              @data_buoys = policy_scope(DataBuoy).where(@query)
+            end
+          end
+        else
           @query = ""
           if params[:start_date].present?
             @query += "date_time >= '#{params[:start_date]}' AND "
@@ -14,7 +30,7 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
           if params[:end_date].present?
             @query += "date_time <= '#{params[:end_date]}' AND "
           end
-          @query += "buoy_id = #{params[:buoy]}"
+          @query += "buoy_id = 2"
           if @query.downcase.include? 'drop'
             @data_buoys = []
           else
