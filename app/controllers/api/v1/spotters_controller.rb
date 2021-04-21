@@ -1,4 +1,4 @@
-class Api::V1::DataBuoysController < Api::V1::BaseController
+class Api::V1::SpottersController < Api::V1::BaseController
   acts_as_token_authentication_handler_for User, except: [ :index ]
 
   def index
@@ -16,9 +16,9 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
           end
           @query += "buoy_id = #{params[:buoy]}"
           if @query.downcase.include? 'drop'
-            @data_buoys = []
+            @spotters = []
           else
-            @data_buoys = policy_scope(DataBuoy).where(@query)
+            @spotters = policy_scope(Spotter).where(@query)
           end
         end
       end
@@ -26,14 +26,14 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
   end
 
   def show
-    @data_buoy = DataBuoy.where("id = params[:id]")
-    authorize @data_buoy  # For Pundit
+    @spotter = Spotter.where("id = params[:id]")
+    authorize @spotter  # For Pundit
   end
 
   private
 
   def render_error
-    render json: { errors: @data_buoy.errors.full_messages },
+    render json: { errors: @spotter.errors.full_messages },
       status: :unprocessable_entity
   end
 end

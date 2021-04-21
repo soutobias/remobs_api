@@ -91,3 +91,12 @@ external: # database you also want to connect to
   host: remobs-qc.postgres.uhserver.com
   username: remobs_qc
   password: Marinha1@
+
+external_raw: # database you also want to connect to
+  database: remobs
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  host: remobs.postgres.uhserver.com
+  username: remobs
+  password: Marinha1@
