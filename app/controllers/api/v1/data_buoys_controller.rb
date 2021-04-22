@@ -23,6 +23,7 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
             end
           end
         else
+
           @query = ""
           if params[:start_date].present?
             @query += "date_time >= '#{params[:start_date]}' AND "

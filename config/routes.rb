@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :data_buoys, only: [ :index, :show ]
       resources :spotters, only: [ :index, :show ]
       resources :waves, only: [ :index, :show ]
+      resources :models, only: [ :index ]
     end
   end
 end
