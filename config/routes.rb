@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :spotters, only: [ :index, :show ]
       resources :waves, only: [ :index, :show ]
       resources :models, only: [ :index ]
+      resources :bmo_raws, only: [ :index ]
     end
   end
 end
