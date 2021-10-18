@@ -29,21 +29,8 @@ class Api::V1::DataStationsController < Api::V1::BaseController
         if params[:station_id].present?
           @query += "AND station_id = #{params[:station_id]}"
         end
-        if params[:min_lat].present?
-          @query += "AND lat >= #{params[:lat]}"
-        end
-        if params[:min_lon].present?
-          @query += "AND lon >= #{params[:lon]}"
-        end
-        if params[:max_lat].present?
-          @query += "AND lat <= #{params[:lat]}"
-        end
-        if params[:max_lon].present?
-          @query += "AND lon <= #{params[:lon]}"
-        end
-
         @joins = ''
-        if params[:data_type].present? || params[:institution].present?
+        if params[:data_type].present? || params[:institution].present? || params[:min_lat].present? || params[:min_lon].present? || params[:max_lat].present? || params[:max_lon].present?
           @joins = "INNER JOIN stations on stations.id = data_stations.station_id"
           if params[:data_type].present?
             @joins += " AND stations.data_type = '#{params[:data_type]}'"
@@ -51,7 +38,18 @@ class Api::V1::DataStationsController < Api::V1::BaseController
           if params[:institution].present?
             @joins += " AND stations.institution = '#{params[:institution]}'"
           end
-            @data_stations=[]
+          if params[:min_lat].present?
+            @joins += " AND lat >= #{params[:min_lat]}"
+          end
+          if params[:min_lon].present?
+            @joins += " AND lon >= #{params[:min_lon]}"
+          end
+          if params[:max_lat].present?
+            @joins += " AND lat <= #{params[:max_lat]}"
+          end
+          if params[:max_lon].present?
+            @joins += " AND lon <= #{params[:max_lon]}"
+          end
         end
 
         if (@query.downcase.include? 'drop') || (@joins.downcase.include? 'drop')
