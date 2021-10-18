@@ -8,6 +8,9 @@ Rails.application.routes.draw do
       resources :waves, only: [ :index, :show ]
       resources :models, only: [ :index ]
       resources :bmo_raws, only: [ :index ]
+      resources :stations, only: [ :index, :show ]
+      resources :data_stations, only: [ :index, :show ]
+      resources :data_no_stations, only: [ :index, :show ]
     end
   end
 end

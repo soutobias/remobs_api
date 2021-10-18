@@ -88,15 +88,26 @@ external: # database you also want to connect to
   adapter: postgresql
   pool: 5
   timeout: 5000
-  host: remobs-qc.postgres.uhserver.com
-  username: remobs_qc
-  password: Marinha1@
+  host: <%= ENV["REMOBS_QC_DB_URL"] %>
+  username: <%= ENV["REMOBS_QC_DB_USR"] %>
+  password: <%= ENV["REMOBS_QC_DB_PASSWORD"] %>
+
 
 external_raw: # database you also want to connect to
   database: remobs
   adapter: postgresql
   pool: 5
   timeout: 5000
-  host: remobs.postgres.uhserver.com
-  username: remobs
-  password: Marinha1@
+  host: <%= ENV["REMOBS_DB_URL"] %>
+  username: <%= ENV["REMOBS_DB_USR"] %>
+  password: <%= ENV["REMOBS_DB_PASSWORD"] %>
+
+
+external_oceanoobs: # database you also want to connect to
+  database: oceanobsbrasil
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  host: <%= ENV["OCEANOBS_DB_URL"] %>
+  username: <%= ENV["OCEANOBS_DB_USR"] %>
+  password: <%= ENV["OCEANOBS_DB_PASSWORD"] %>
