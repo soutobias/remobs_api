@@ -1,8 +1,10 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.16.0"
 
+
 set :application, "remobs_api"
 set :repo_url, "git@github.com:soutobias/remobs_api.git"
+
 
 set :deploy_to, "/home/remobsapi/#{fetch :application}"
 
