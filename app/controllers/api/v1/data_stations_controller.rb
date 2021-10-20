@@ -27,37 +27,29 @@ class Api::V1::DataStationsController < Api::V1::BaseController
         if params[:station_id].present?
           @query += " AND station_id = #{params[:station_id]}"
         end
-        @joins = ''
-        if params[:data_type].present? || params[:institution].present? || params[:min_lat].present? || params[:min_lon].present? || params[:max_lat].present? || params[:max_lon].present?
-          @joins = "INNER JOIN stations on stations.id = data_stations.station_id"
-          if params[:data_type].present?
-            @joins += " AND stations.data_type = '#{params[:data_type]}'"
-          end
-          if params[:institution].present?
-            @joins += " AND stations.institution = '#{params[:institution]}'"
-          end
-          if params[:min_lat].present?
-            @joins += " AND lat >= #{params[:min_lat]}"
-          end
-          if params[:min_lon].present?
-            @joins += " AND lon >= #{params[:min_lon]}"
-          end
-          if params[:max_lat].present?
-            @joins += " AND lat <= #{params[:max_lat]}"
-          end
-          if params[:max_lon].present?
-            @joins += " AND lon <= #{params[:max_lon]}"
-          end
+        if params[:data_type].present?
+          @query += " AND stations.data_type = '#{params[:data_type]}'"
         end
-
-        if (@query.downcase.include? 'drop') || (@joins.downcase.include? 'drop')
+        if params[:institution].present?
+          @query += " AND stations.institution = '#{params[:institution]}'"
+        end
+        if params[:min_lat].present?
+          @query += " AND stations.lat >= #{params[:min_lat]}"
+        end
+        if params[:min_lon].present?
+          @query += " AND stations.lon >= #{params[:min_lon]}"
+        end
+        if params[:max_lat].present?
+          @query += " AND stations.lat <= #{params[:max_lat]}"
+        end
+        if params[:max_lon].present?
+          @query += " AND stations.lon <= #{params[:max_lon]}"
+        end
+        if (@query.downcase.include? 'drop')
           @data_stations = []
         else
-          if @joins != ''
-            @data_stations = policy_scope(DataStation).joins(@joins).where(@query)
-          else
-            @data_stations = policy_scope(DataStation).where(@query)
-          end
+          print(@query)
+          @data_stations = policy_scope(DataStation).includes(:station).joins(:station).where(@query)
         end
       end
     end
@@ -75,3 +67,9 @@ class Api::V1::DataStationsController < Api::V1::BaseController
       status: :unprocessable_entity
   end
 end
+
+# date_time >= '2021-10-20 00:00:00' AND date_time <= '2021-10-20 22:04:40' AND stations.data_type = 'buoy'
+# select = "station_id, date_time, wspd, wdir, gust, atmp, pres, rh, dewpt, swvht, swvht_swell, swvht_sea, wvdir, wvdir_swell, wvdir_sea, mxwvht, tp, wvspread, water_level, sst, meteorological_tide, cleaning, stations.lon"
+# x = DataStation.joins(:station).includes(:station).where("date_time >= '2021-10-20 00:00:00' AND date_time <= '2021-10-20 22:04:40' AND stations.data_type = 'buoy'")
+
+
