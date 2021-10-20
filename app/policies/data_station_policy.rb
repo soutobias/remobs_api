@@ -8,5 +8,8 @@ class DataStationPolicy < ApplicationPolicy
   def show?
     true
   end
+  def last?
+    true
+  end
 
 end
