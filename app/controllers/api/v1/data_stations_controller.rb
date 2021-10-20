@@ -7,27 +7,25 @@ class Api::V1::DataStationsController < Api::V1::BaseController
       unless user.empty?
         @query = ""
         if params[:start_date].present?
-          start_date = Date.strptime(params[:start_date])
-          if (start_date >= Date.today+1 || start_date <= Date.today-5)
-            start_date = Date.today.to_s
+          start_date = Time.strptime(params[:start_date], format="%Y-%m-%dT%H:%M:%S")
+          if (start_date >= Time.now.utc || start_date <= Time.now.utc - (3600*24*5))
+            start_date = (Time.now.utc - (3600*24*1))
           end
-          @query += "date_time >= '#{start_date.to_s}' AND "
+          @query += "date_time >= '#{start_date.strftime("%Y-%m-%d %H:%M:%S")}' AND "
         else
-          @query += "date_time >= '#{Date.today.to_s}' AND "
+          @query += "date_time >= '#{(Time.now.utc - (3600*24*5)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
         end
-
         if params[:end_date].present?
-          end_date = Date.strptime(params[:end_date])
-          if end_date <= Date.today-5
-            end_date = Date.today+1
+          end_date = Time.strptime(params[:end_date], format="%Y-%m-%dT%H:%M:%S")
+          if end_date <= Time.now.utc - (3600*24*5)
+            end_date = Time.now.utc
           end
-          @query += "date_time <= '#{end_date.to_s}'"
+          @query += "date_time <= '#{end_date.strftime("%Y-%m-%d %H:%M:%S")}'"
         else
-          @query += "date_time <= '#{(Date.today+1).to_s}'"
+          @query += "date_time <= '#{(Time.now.utc).strftime("%Y-%m-%d %H:%M:%S")}'"
         end
-
         if params[:station_id].present?
-          @query += "AND station_id = #{params[:station_id]}"
+          @query += " AND station_id = #{params[:station_id]}"
         end
         @joins = ''
         if params[:data_type].present? || params[:institution].present? || params[:min_lat].present? || params[:min_lon].present? || params[:max_lat].present? || params[:max_lon].present?
