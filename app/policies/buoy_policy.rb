@@ -8,4 +8,5 @@ class BuoyPolicy < ApplicationPolicy
   def show?
     true
   end
+
 end

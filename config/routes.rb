@@ -9,13 +9,13 @@ Rails.application.routes.draw do
       resources :models, only: [ :index ]
       resources :bmo_raws, only: [ :index ]
       resources :stations, only: [ :index, :show ]
-      resources :data_stations, only: [ :index, :show ] do
+      resources :data_stations, only: [ :index ] do
         collection do
           get :last
+          get :station
         end
       end
       resources :data_no_stations, only: [ :index, :show ]
-
     end
   end
 end

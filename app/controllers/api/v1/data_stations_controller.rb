@@ -1,5 +1,5 @@
 class Api::V1::DataStationsController < Api::V1::BaseController
-  acts_as_token_authentication_handler_for User, except: [ :index, :last ]
+  acts_as_token_authentication_handler_for User, except: [ :index, :last, :station ]
 
   def index
     if params[:token].present?
@@ -109,9 +109,41 @@ class Api::V1::DataStationsController < Api::V1::BaseController
     end
   end
 
-  def show
-    @data_station = DataStation.where("id = params[:id]")
-    authorize @data_station  # For Pundit
+  def station
+    if params[:token].present?
+      user = User.where("authentication_token = ?", params[:token])
+      @station = Station.find(params[:station_id])
+      unless user.empty?
+        if @station
+          @query = "station_id = #{@station.id} AND "
+          if params[:start_date].present?
+            start_date = Time.strptime(params[:start_date], format="%Y-%m-%dT%H:%M:%S")
+            if (start_date >= Time.now.utc || start_date <= Time.now.utc - (3600*24*5))
+              start_date = (Time.now.utc - (3600*24*1))
+            end
+            @query += "date_time >= '#{start_date.strftime("%Y-%m-%d %H:%M:%S")}' AND "
+          else
+            @query += "date_time >= '#{(Time.now.utc - (3600*24*5)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
+          end
+          if params[:end_date].present?
+            end_date = Time.strptime(params[:end_date], format="%Y-%m-%dT%H:%M:%S")
+            if end_date <= Time.now.utc - (3600*24*5)
+              end_date = Time.now.utc
+            end
+            @query += "date_time <= '#{end_date.strftime("%Y-%m-%d %H:%M:%S")}'"
+          else
+            @query += "date_time <= '#{(Time.now.utc).strftime("%Y-%m-%d %H:%M:%S")}'"
+          end
+          if (@query.downcase.include? 'drop')
+            @data_stations = []
+          else
+            print(@query)
+            @data_stations = DataStation.where(@query).order(date_time: :desc)
+            authorize @data_stations  # For Pundit
+          end
+        end
+      end
+    end
   end
 
   private

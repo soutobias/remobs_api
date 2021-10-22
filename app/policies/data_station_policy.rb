@@ -5,7 +5,7 @@ class DataStationPolicy < ApplicationPolicy
     end
   end
 
-  def show?
+  def station?
     true
   end
   def last?

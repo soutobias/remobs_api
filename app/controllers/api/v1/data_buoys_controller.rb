@@ -6,36 +6,34 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
       user = User.where("authentication_token = ?", params[:token])
       buoy = Buoy.where("id = ?", params[:buoy])
       unless user.empty?
-        if user[0].email != 'bmo@gmail.com'
-          unless buoy.empty?
-            @query = ""
-            if params[:start_date].present?
-              @query += "date_time >= '#{params[:start_date]}' AND "
-            end
-            if params[:end_date].present?
-              @query += "date_time <= '#{params[:end_date]}' AND "
-            end
-            @query += "buoy_id = #{params[:buoy]}"
-            if @query.downcase.include? 'drop'
-              @data_buoys = []
-            else
-              @data_buoys = policy_scope(DataBuoy).where(@query)
-            end
-          end
-        else
-
+        unless buoy.empty?
           @query = ""
           if params[:start_date].present?
-            @query += "date_time >= '#{params[:start_date]}' AND "
+            start_date = Time.strptime(params[:start_date], format="%Y-%m-%d")
+            if start_date >= Time.now.utc
+              start_date = (Time.now.utc - (3600*24*1))
+            end
+            @query += "date_time >= '#{start_date.strftime("%Y-%m-%d %H:%M:%S")}' AND "
+          else
+            @query += "date_time >= '#{(Time.now.utc - (3600*24*5)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
           end
           if params[:end_date].present?
-            @query += "date_time <= '#{params[:end_date]}' AND "
+            end_date = Time.strptime(params[:end_date], format="%Y-%m-%d")
+            if end_date <= start_date
+              end_date = start_date + (3600*24*1)
+            elsif (end_date - start_date)/3600/24 > 5
+              end_date = start_date + (3600*24*5)
+            end
+            @query += "date_time <= '#{end_date.strftime("%Y-%m-%d %H:%M:%S")}' AND "
+          else
+            @query += "date_time <= '#{(start_date + (3600*24*1)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
           end
-          @query += "buoy_id = 2"
+          @query += "buoy_id = #{params[:buoy]}"
+          print(@query)
           if @query.downcase.include? 'drop'
             @data_buoys = []
           else
-            @data_buoys = policy_scope(DataBuoy).where(@query)
+            @data_buoys = policy_scope(DataBuoy).where(@query).order(date_time: :desc)
           end
         end
       end
