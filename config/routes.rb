@@ -16,6 +16,8 @@ Rails.application.routes.draw do
         end
       end
       resources :data_no_stations, only: [ :index, :show ]
+      resources :tags, only: [ :index ]
+
     end
   end
 end
