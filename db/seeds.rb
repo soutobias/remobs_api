@@ -8,9 +8,10 @@
 User.destroy_all
 
 user_name = User.new(
-  email: "1@gmail.com",
+  email: "2@gmail.com",
   password: '123abc',
 )
+
 user_name.save!
 
 puts (user_name.authentication_token)
