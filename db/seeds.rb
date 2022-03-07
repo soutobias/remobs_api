@@ -8,8 +8,8 @@
 User.destroy_all
 
 user_name = User.new(
-  email: "2@gmail.com",
-  password: '123abc',
+  email: "3@gmail.com",
+  password: '456def',
 )
 
 user_name.save!

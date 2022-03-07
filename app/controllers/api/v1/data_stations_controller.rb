@@ -48,7 +48,12 @@ class Api::V1::DataStationsController < Api::V1::BaseController
         if (@query.downcase.include? 'drop')
           @data_stations = []
         else
-          @data_stations = policy_scope(DataStation).includes(:station).joins(:station).where(@query).order(station_id: :asc, date_time: :desc)
+          if user.admin
+            @data_stations = policy_scope(DataStation).includes(:station).joins(:station).where(@query).order(station_id: :asc, date_time: :desc)
+          else
+            @query += " AND stations.flag = true"
+            @data_stations = policy_scope(DataStation).includes(:station).joins(:station).where(@query).order(station_id: :asc, date_time: :desc)
+          end
         end
       end
     end
@@ -101,8 +106,12 @@ class Api::V1::DataStationsController < Api::V1::BaseController
         if (@query.downcase.include? 'drop')
           @data_stations = []
         else
-          print(@query)
-          @data_stations = DataStation.select("DISTINCT ON(data_stations.station_id) data_stations.*").includes(:station).joins(:station).where(@query).order(station_id: :asc, date_time: :desc)
+          if user[0].admin
+            @data_stations = DataStation.select("DISTINCT ON(data_stations.station_id) data_stations.*").includes(:station).joins(:station).where(@query).order(station_id: :asc, date_time: :desc)
+          else
+            @query += " AND stations.flag = true"
+            @data_stations = DataStation.select("DISTINCT ON(data_stations.station_id) data_stations.*").includes(:station).joins(:station).where(@query).order(station_id: :asc, date_time: :desc)
+          end
           authorize @data_stations  # For Pundit
         end
       end
@@ -137,8 +146,12 @@ class Api::V1::DataStationsController < Api::V1::BaseController
           if (@query.downcase.include? 'drop')
             @data_stations = []
           else
-            print(@query)
-            @data_stations = DataStation.where(@query).order(date_time: :desc)
+            if user.admin
+              @data_stations = DataStation.where(@query).order(date_time: :desc)
+            else
+              @query += " AND flag = true"
+              @data_stations = DataStation.where(@query).order(date_time: :desc)
+            end
             authorize @data_stations  # For Pundit
           end
         end
