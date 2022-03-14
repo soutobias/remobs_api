@@ -149,8 +149,8 @@ class Api::V1::DataStationsController < Api::V1::BaseController
             if user[0].admin
               @data_stations = DataStation.where(@query).order(date_time: :desc)
             else
-              @query += " AND flag = true"
-              @data_stations = DataStation.where(@query).order(date_time: :desc)
+              @query += " AND stations.flag = true"
+              @data_stations = DataStation.joins(:station).where(@query).order(date_time: :desc)
             end
             authorize @data_stations  # For Pundit
           end
