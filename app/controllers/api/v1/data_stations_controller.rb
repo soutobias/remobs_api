@@ -59,6 +59,8 @@ class Api::V1::DataStationsController < Api::V1::BaseController
     end
   end
 
+
+  
   def last
     if params[:token].present?
       user = User.where("authentication_token = ?", params[:token])

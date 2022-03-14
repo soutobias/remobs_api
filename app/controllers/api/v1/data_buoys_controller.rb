@@ -1,5 +1,5 @@
 class Api::V1::DataBuoysController < Api::V1::BaseController
-  acts_as_token_authentication_handler_for User, except: [ :index ]
+  acts_as_token_authentication_handler_for User, except: [ :index, :last ]
 
   def index
     if params[:token].present? && params[:buoy].present?
@@ -30,6 +30,28 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
             @query += "date_time <= '#{(Time.now.utc + (3600*24*1)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
           end
 
+          @query += "buoy_id = #{params[:buoy]}"
+          if @query.downcase.include? 'drop'
+            @data_buoys = []
+          else
+            puts(@query)
+            @data_buoys = policy_scope(DataBuoy).where(@query).order(date_time: :desc)
+          end
+        end
+      end
+    end
+  end
+
+  def last
+    if params[:token].present? && params[:buoy].present?
+      user = User.where("authentication_token = ?", params[:token])
+      buoy = Buoy.where("id = ?", params[:buoy])
+      unless user.empty?
+        unless buoy.empty?
+          @query = ""
+          start_date = Time.now.utc - (3600*24*4)
+          @query += "date_time >= '#{(Time.now.utc - (3600*24*5)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
+          @query += "date_time <= '#{(Time.now.utc + (3600*24*1)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
           @query += "buoy_id = #{params[:buoy]}"
           if @query.downcase.include? 'drop'
             @data_buoys = []
