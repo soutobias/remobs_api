@@ -57,7 +57,7 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
             @data_buoys = []
           else
             puts(@query)
-            @data_buoys = policy_scope(DataBuoy).where(@query).order(date_time: :desc)
+            @data_buoys = policy_scope(DataBuoy).where(@query).order(date_time: :desc).limit(1)
           end
         end
       end
