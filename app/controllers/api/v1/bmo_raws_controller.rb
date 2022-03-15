@@ -12,7 +12,7 @@ class Api::V1::BmoRawsController < Api::V1::BaseController
         if params[:end_date].present?
           @query += "date_time <= '#{params[:end_date]}'"
         end
-        if @query.downcase.include? 'drop'
+        if @query.downcase.match(/(\/|;|drop|\*|if|\+|\-|\!|concat|char|union)/)
           @bmo_raws = []
         else
           @bmo_raws = policy_scope(BmoRaw).where(@query)

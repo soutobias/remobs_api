@@ -12,7 +12,7 @@ class Api::V1::TagsController < Api::V1::BaseController
         if params[:end_date].present?
           @query += "date_time <= '#{params[:end_date]}'"
         end
-        if @query.downcase.include? 'drop'
+        if @query.downcase.match(/(\/|;|drop|\*|if|\+|\-|\!|concat|char|union)/)
           @tags = []
         else
           @tags = policy_scope(Tag).where(@query)

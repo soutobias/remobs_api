@@ -49,7 +49,7 @@ class Api::V1::DataNoStationsController < Api::V1::BaseController
           @query += "AND data_type = '#{params[:data_type]}'"
         end
 
-        if @query.downcase.include? 'drop'
+        if @query.downcase.match(/(\/|;|drop|\*|if|\+|\-|\!|concat|char|union)/)
           @data_no_stations = []
         else
           @data_no_stations = policy_scope(DataNoStation).where(@query)

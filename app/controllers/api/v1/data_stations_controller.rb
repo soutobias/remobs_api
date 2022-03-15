@@ -145,7 +145,7 @@ class Api::V1::DataStationsController < Api::V1::BaseController
           else
             @query += "date_time <= '#{(Time.now.utc).strftime("%Y-%m-%d %H:%M:%S")}'"
           end
-          if (@query.downcase.include? 'drop')
+          if @query.downcase.match(/(\/|;|drop|\*|if|\+|\-|\!|concat|char|union)/)
             @data_stations = []
           else
             if user[0].admin
