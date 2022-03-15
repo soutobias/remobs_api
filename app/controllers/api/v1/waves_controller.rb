@@ -15,7 +15,7 @@ class Api::V1::WavesController < Api::V1::BaseController
             @query += "date_time <= '#{params[:end_date]}' AND "
           end
           @query += "buoy_id = #{params[:buoy]}"
-          if @query.downcase.match(/(\/|;|drop|\*|if|\+|\-|\!|concat|char|union)/)
+          if !@query.downcase.match(/(\/|;|drop|\*|if|\+|\-\-|\!|concat|char|union)/).to_a.empty?
             @waves = []
           else
             @waves = policy_scope(Wave).where(@query)

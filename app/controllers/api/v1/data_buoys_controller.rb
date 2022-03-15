@@ -31,7 +31,10 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
           end
 
           @query += "buoy_id = #{params[:buoy]}"
-          if @query.downcase.match(/(\/|;|drop|\*|if|\+|\-|\!|concat|char|union)/)
+          print('---------------')
+          print(@query)
+          print('---------------')
+          if !@query.downcase.match(/(\/|;|drop|\*|if|\+|\-\-|\!|concat|char|union)/).to_a.empty?
             @data_buoys = []
           else
             puts(@query)
