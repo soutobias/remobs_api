@@ -22,8 +22,6 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
             end_date = Time.strptime(params[:end_date], format="%Y-%m-%d")
             if end_date <= start_date
               end_date = start_date + (3600*24*1)
-            elsif (end_date - start_date)/3600/24 > 5
-              end_date = start_date + (3600*24*5)
             end
             @query += "date_time <= '#{end_date.strftime("%Y-%m-%d %H:%M:%S")}' AND "
           else
