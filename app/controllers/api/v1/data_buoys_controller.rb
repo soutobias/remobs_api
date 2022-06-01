@@ -1,5 +1,5 @@
 class Api::V1::DataBuoysController < Api::V1::BaseController
-  acts_as_token_authentication_handler_for User, except: [ :index ]
+  acts_as_token_authentication_handler_for User, except: [ :index, :last ]
 
   def index
     if params[:token].present? && params[:buoy].present?
@@ -31,11 +31,18 @@ class Api::V1::DataBuoysController < Api::V1::BaseController
           end
 
           @query += "buoy_id = #{params[:buoy]}"
-          if @query.downcase.include? 'drop'
+          print('---------------')
+          print(@query)
+          print('---------------')
+          if !@query.downcase.match(/(\/|;|drop|\*|if|\+|\-\-|\!|concat|char|union)/).to_a.empty?
             @data_buoys = []
           else
             puts(@query)
-            @data_buoys = policy_scope(DataBuoy).where(@query).order(date_time: :desc)
+            if params[:limit].present?
+              @data_buoys = policy_scope(DataBuoy).where(@query).order(date_time: :desc).limit(params[:limit].to_i)
+            else
+              @data_buoys = policy_scope(DataBuoy).where(@query).order(date_time: :desc)
+            end
           end
         end
       end

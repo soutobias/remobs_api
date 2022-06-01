@@ -48,7 +48,7 @@ class Api::V1::DataStationsController < Api::V1::BaseController
         if (@query.downcase.include? 'drop')
           @data_stations = []
         else
-          if user.admin[0]
+          if user[0].admin
             @data_stations = policy_scope(DataStation).includes(:station).joins(:station).where(@query).order(station_id: :asc, date_time: :desc)
           else
             @query += " AND stations.flag = true"
@@ -59,6 +59,8 @@ class Api::V1::DataStationsController < Api::V1::BaseController
     end
   end
 
+
+  
   def last
     if params[:token].present?
       user = User.where("authentication_token = ?", params[:token])
@@ -143,7 +145,7 @@ class Api::V1::DataStationsController < Api::V1::BaseController
           else
             @query += "date_time <= '#{(Time.now.utc).strftime("%Y-%m-%d %H:%M:%S")}'"
           end
-          if (@query.downcase.include? 'drop')
+          if !@query.downcase.match(/(\/|;|drop|\*|if|\+|\-\-|\!|concat|char|union)/).to_a.empty?
             @data_stations = []
           else
             if user[0].admin

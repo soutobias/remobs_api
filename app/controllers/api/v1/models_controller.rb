@@ -15,7 +15,7 @@ class Api::V1::ModelsController < Api::V1::BaseController
             @query += "date_time <= '#{params[:end_date]}' AND "
           end
           @query += "buoy_id = #{params[:buoy]}"
-          if @query.downcase.include? 'drop'
+          if !@query.downcase.match(/(\/|;|drop|\*|if|\+|\-\-|\!|concat|char|union)/).to_a.empty?
             @models = []
           else
             @models = policy_scope(Model).where(@query)
