@@ -52,6 +52,9 @@ class Api::V1::DataNoStationsController < Api::V1::BaseController
         if !@query.downcase.match(/(\/|;|drop|\*|if|\+|\-\-|\!|concat|char|union)/).to_a.empty?
           @data_no_stations = []
         else
+          if !user[0].admin
+            @query += " AND stations.flag = true"
+          end
           @data_no_stations = policy_scope(DataNoStation).where(@query)
         end
 
