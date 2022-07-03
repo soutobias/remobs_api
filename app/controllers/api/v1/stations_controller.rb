@@ -10,6 +10,7 @@ class Api::V1::StationsController < Api::V1::BaseController
   end
 
   private
+  
 
   def set_station
     @station = Station.find(params[:id])
