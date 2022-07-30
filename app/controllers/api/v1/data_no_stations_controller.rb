@@ -1,6 +1,6 @@
 class Api::V1::DataNoStationsController < Api::V1::BaseController
   acts_as_token_authentication_handler_for User, except: [ :index, :distinct ]
-  after_action :verify_authorized, except: :distinct
+  after_action :verify_authorized, except: [ :distinct, :index ]
 
   def index
     if params[:token].present?
