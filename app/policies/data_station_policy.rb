@@ -8,8 +8,12 @@ class DataStationPolicy < ApplicationPolicy
   def station?
     true
   end
+  
   def last?
     true
   end
 
+  def distinct?
+    true
+  end
 end

@@ -14,11 +14,15 @@ Rails.application.routes.draw do
         collection do
           get :last
           get :station
+          get :distinct
         end
       end
-      resources :data_no_stations, only: [ :index, :show ]
+      resources :data_no_stations, only: [ :index ] do
+        collection do
+          get :distinct
+        end
+      end
       resources :tags, only: [ :index ]
-
     end
   end
 end

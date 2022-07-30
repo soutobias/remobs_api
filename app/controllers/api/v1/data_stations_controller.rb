@@ -1,5 +1,6 @@
 class Api::V1::DataStationsController < Api::V1::BaseController
-  acts_as_token_authentication_handler_for User, except: [ :index, :last, :station ]
+  acts_as_token_authentication_handler_for User, except: [ :index, :last, :station, :distinct ]
+  after_action :verify_authorized, except: :distinct
 
   def index
     if params[:token].present?
@@ -160,6 +161,18 @@ class Api::V1::DataStationsController < Api::V1::BaseController
       end
     end
   end
+
+  def distinct
+    if params[:token].present?
+      user = User.where("authentication_token = ?", params[:token])
+      unless user.empty?
+        @total = policy_scope(DataStation).select('distinct(station_id)').count
+        @total = {'total_stations': @total}
+        render json: @total.to_json() 
+      end
+    end
+  end
+
 
   private
 

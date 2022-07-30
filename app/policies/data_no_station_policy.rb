@@ -8,5 +8,8 @@ class DataNoStationPolicy < ApplicationPolicy
   def show?
     true
   end
-
+  
+  def distinct?
+    true
+  end
 end

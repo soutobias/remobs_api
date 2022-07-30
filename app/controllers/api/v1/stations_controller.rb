@@ -8,7 +8,7 @@ class Api::V1::StationsController < Api::V1::BaseController
 
   def show
   end
-
+  
   private
   
 
@@ -18,7 +18,7 @@ class Api::V1::StationsController < Api::V1::BaseController
   end
 
   def station_params
-    params.require(:station).permit(:id, :name, :lat, :lon, :data_type, :institution, :url)
+    params.require(:station).permit(:id, :name, :lat, :lon, :data_type, :institution, :url, :flag)
   end
 
   def render_error
