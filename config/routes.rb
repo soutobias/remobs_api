@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :models, only: [ :index ]
       resources :bmo_raws, only: [ :index ]
       resources :stations, only: [ :index, :show ]
+      resources :weather_warnings, only: [ :index ]
       resources :data_stations, only: [ :index ] do
         collection do
           get :last
