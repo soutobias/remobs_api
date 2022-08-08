@@ -56,7 +56,7 @@ class Api::V1::DataNoStationsController < Api::V1::BaseController
           if user[0].admin
             @data_no_stations = policy_scope(DataNoStation).where(@query)
           else
-            @query += " AND flag = true"
+            # @query += " AND flag = true"
             @data_no_stations = policy_scope(DataNoStation).where(@query)
           end
         end
