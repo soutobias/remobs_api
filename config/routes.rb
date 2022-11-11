@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     end
     namespace :v2 do
       resources :moored_buoys, only: [ :index, :show ]
+      resources :qualified_values, only: [ :index, :show ]
     end
   end
 end
