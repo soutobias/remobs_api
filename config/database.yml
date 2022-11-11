@@ -110,3 +110,12 @@ external_oceanoobs: # database you also want to connect to
   host: <%= ENV["OCEANOBS_DB_URL"] %>
   username: <%= ENV["OCEANOBS_DB_USR"] %>
   password: <%= ENV["OCEANOBS_DB_PASSWORD"] %>
+
+external_new: # database you also want to connect to
+  database: pnboia_teste
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  host: <%= ENV["REMOBS_NEW_DB_URL"] %>
+  username: <%= ENV["REMOBS_NEW_DB_USR"] %>
+  password: <%= ENV["REMOBS_NEW_DB_PASSWORD"] %>

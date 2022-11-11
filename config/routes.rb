@@ -25,5 +25,8 @@ Rails.application.routes.draw do
       end
       resources :tags, only: [ :index ]
     end
+    namespace :v2 do
+      resources :moored_buoys, only: [ :index, :show ]
+    end
   end
 end
