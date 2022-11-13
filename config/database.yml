@@ -112,7 +112,7 @@ external_oceanoobs: # database you also want to connect to
   password: <%= ENV["OCEANOBS_DB_PASSWORD"] %>
 
 external_new: # database you also want to connect to
-  database: pnboia_teste
+  database: pnboia
   adapter: postgresql
   pool: 5
   timeout: 5000
