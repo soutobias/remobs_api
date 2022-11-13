@@ -24,6 +24,7 @@ class Api::V2::DriftValuesController < Api::V1::BaseController
           end
           @query += "date_time <= '#{end_date.strftime("%Y-%m-%d %H:%M:%S")}' AND "
         else
+          
           @query += "date_time <= '#{(Time.now.utc + (3600*24*1)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
         end
         @query += 'true'
