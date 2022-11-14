@@ -11,5 +11,9 @@ class DriftValuePolicy < ApplicationPolicy
     def show?
         true
     end
+    
+    def last?
+        true
+    end
 end
   

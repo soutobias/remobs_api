@@ -44,6 +44,45 @@ class Api::V2::DriftValuesController < Api::V1::BaseController
     end
   end
 
+  def last
+    if params[:token].present?
+      user = User.where("authentication_token = ?", params[:token])
+      unless user.empty?
+        @query = ""
+        if params[:start_date].present?
+          start_date = Time.strptime(params[:start_date], format="%Y-%m-%d")
+          if start_date >= Time.now.utc
+            start_date = (Time.now.utc - (3600*24*1))
+          end
+          @query += "date_time >= '#{start_date.strftime("%Y-%m-%d %H:%M:%S")}' AND "
+        else
+          start_date = Time.now.utc - (3600*24*4)
+          @query += "date_time >= '#{(Time.now.utc - (3600*24*5)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
+        end
+        if params[:end_date].present?
+          end_date = Time.strptime(params[:end_date], format="%Y-%m-%d")
+          if end_date <= start_date
+            end_date = start_date + (3600*24*1)
+          end
+          @query += "date_time <= '#{end_date.strftime("%Y-%m-%d %H:%M:%S")}' AND "
+        else
+          
+          @query += "date_time <= '#{(Time.now.utc + (3600*24*1)).strftime("%Y-%m-%d %H:%M:%S")}' AND "
+        end
+        @query += 'true'
+        puts('---------------')
+        puts(@query)
+        puts('---------------')
+        if !@query.downcase.match(/(\/|;|drop|\*|if|\+|\-\-|\!|concat|char|union)/).to_a.empty?
+          @qualified_values = []
+        else
+          @qualified_values = DriftValue.select("DISTINCT ON(drift.spotter_general.buoy_id) drift.spotter_general.*").where(@query).order(buoy_id: :asc, date_time: :desc)
+        end
+        authorize @qualified_values  # For Pundit
+      end
+    end
+  end
+
   def show
     @qualified_value = DriftValue.where("id = params[:id]")
     authorize @qualified_value  # For Pundit
