@@ -118,18 +118,19 @@ if params[:petrobras]
             json.flag_TEMPERATURA_AGUA qualified_value.flag_sst
 
             if qualified_value.cspd1
-                json.CURRENTMETER_SPEED qualified_value.cspd1.to_f
+                json.ADCP_BIN1_SPEED qualified_value.cspd1.to_f
             else
-                json.CURRENTMETER_SPEED qualified_value.cspd1
+                json.ADCP_BIN1_SPEED qualified_value.cspd1
             end
-            json.flag_CURRENTMETER_SPEED qualified_value.flag_cspd1
+            json.flag_ADCP_BIN1_SPEED qualified_value.flag_cspd1
 
             if qualified_value.cdir1
-                json.CURRENTMETER_DIRECTION qualified_value.cdir1.to_f
+                json.ADCP_BIN1_DIRECTION qualified_value.cdir1.to_f
             else
-                json.CURRENTMETER_DIRECTION qualified_value.cdir1
+                json.ADCP_BIN1_DIRECTION qualified_value.cdir1
             end
-            json.flag_CURRENTMETER_DIRECTION qualified_value.flag_cdir1
+            json.flag_ADCP_BIN1_DIRECTION qualified_value.flag_cdir1
+            json.ADCP_BIN1_DEPTH 5.0
 
             if qualified_value.cspd2
                 json.ADCP_BIN2_SPEED qualified_value.cspd2.to_f
