@@ -85,6 +85,7 @@ production:
   host: <%= ENV["USER_ACCESS_URL"] %>
   username: <%= ENV["USER_ACCESS_USR"] %>
   password: <%= ENV["USER_ACCESS_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
 
 
 external: # database you also want to connect to
