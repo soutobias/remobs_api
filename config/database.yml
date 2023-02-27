@@ -78,10 +78,14 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: remobs_api
-  username: remobsapi
-  password: marinha1
+  database: user_tobias
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  host: <%= ENV["USER_ACCESS_URL"] %>
+  username: <%= ENV["USER_ACCESS_USR"] %>
+  password: <%= ENV["USER_ACCESS_PASSWORD"] %>
+
 
 external: # database you also want to connect to
   database: remobs_qc
